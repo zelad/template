@@ -9,7 +9,7 @@ app.controller("uneFonctionCtrl", function ($scope, $rootScope,WebSocketService)
 	              {username: "rbeck", content:"bienvenue"},
 	              {username: "sthomas", content:"WTF"}]
 	
-	WebSocketService.sendPseudo("kiki","gris");
+	//WebSocketService.sendPseudo("kiki","gris");//TODO ne fonctionne pas... voir avec le dépo entier et manque la partie réception "rxRouting" du projet dans son intégralité
 });
 
 app.factory("Post", function(){
@@ -43,7 +43,6 @@ var SocketManager = {
     	    
 //  console.log("Received data from websocket: ", messageObj);
     	    rxTools.rxRouting(scope,rootScope,messageObj);
-//    	    rxTools.rxRouting(scope,rootScope,messageObj,partyStartService);
     	};
         
         return this.ws;
