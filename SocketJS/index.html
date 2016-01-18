@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Template Angular</title>
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/controller.js"></script>
+
+</head>
+<body ng-app="uneApp">
+	<div ng-controller="uneFonctionCtrl" >
+		<input type="text" ng-model="task" />
+		{{task}}
+		<div ng-repeat="object in foo">
+			<p>
+				<strong>{{object.username}}</strong><br>
+				{{object.content}}
+			</p>
+		</div>
+	</div>
+</body>
+</html>
