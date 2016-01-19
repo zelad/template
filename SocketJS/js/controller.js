@@ -10,6 +10,7 @@ app.controller("uneFonctionCtrl", function ($scope, $rootScope,WebSocketService)
 	              {username: "sthomas", content:"WTF"}]
 	
 	//WebSocketService.sendPseudo("kiki","gris");//TODO ne fonctionne pas... voir avec le dépo entier et manque la partie réception "rxRouting" du projet dans son intégralité
+	WebSocketService.sendObject("recAttack","toto");
 });
 
 app.factory("Post", function(){

@@ -33,13 +33,14 @@ app.factory('WebSocketService',['$q','$rootScope',
       return currentCallbackId;
     }
     
-    // Fonction permettant d'envoyer le pseudo et de commencer la partie
-    Service.sendPseudo = function(pseudo,blason){
+    // Fonction de tranmission "general"
+    Service.sendObject = function(sendID,object){
+    	
         var request = {
-            sendType: "accueil",
-            nickName: pseudo,
-            blasonId: blason
+            sendType: sendID
         };
+        request.object = object;//Pour ajouter un parametre à l objet "request"
+        
         var promise = sendRequest(request);
         return promise;
     };
