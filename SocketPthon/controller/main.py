@@ -4,53 +4,20 @@
 Created on 15 janv. 2016
 
 @author: Kiki
-@note: inspiration socket ici: https://openclassrooms.com/courses/apprenez-a-programmer-en-python/le-reseau
+@note: inspiration WebSocket ici: 
 '''
+from websocket_server import WebsocketServer
 
-import socket
+def new_client(client, server):
+    print "client connecte"
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("", 9999))
-sock.listen(5)
- 
-handshake = '\
-HTTP/1.1 101 Web Socket Protocol Handshake\r\n\
-Upgrade: WebSocket\r\n\
-Connection: Upgrade\r\n\
-WebSocket-Origin: http://localhost:8888\r\n\
-WebSocket-Location: ws://localhost:9999/\r\n\r\n\
-'
-handshaken = False
- 
-print "TCPServer Waiting for client on port 9999"
- 
-import sys
- 
-data = ''
-header = ''
- 
-client, address = sock.accept()
-while True:
-    if handshaken == False:
-        header += client.recv(16)
-        if header.find('\r\n\r\n') != -1:
-            data = header.split('\r\n\r\n', 1)[1]
-            handshaken = True
-            client.send(handshake)
-    else:
-            tmp = client.recv(128)
-            data += tmp;
- 
-            validated = []
- 
-            msgs = data.split('\xff')
-            data = msgs.pop()
- 
-            for msg in msgs:
-                if msg[0] == '\x00':
-                    validated.append(msg[1:])
- 
-            for v in validated:
-                print v
-                client.send('\x00' + v + '\xff')
-                
+def new_message(client, server, message):
+    print message
+    
+server = WebsocketServer(9999)
+server.set_fn_new_client(new_client)
+server.set_fn_message_received(new_message)
+server.run_forever()
+
+if __name__ == "__main__":
+    pass
