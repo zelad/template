@@ -4,20 +4,31 @@
 Created on 15 janv. 2016
 
 @author: Kiki
-@note: inspiration WebSocket ici: 
+@note: inspiration WebSocket ici: https://pypi.python.org/pypi/websocket-server/0.4
+@note: ou: https://github.com/Pithikos/python-websocket-server
 '''
 from websocket_server import WebsocketServer
 
 def new_client(client, server):
     print "client connecte"
-
-def new_message(client, server, message):
+# ex de broadcast:
+    tx2All(); 
+    
+def rxMessage(client, server, message):
     print message
     
-server = WebsocketServer(9999)
-server.set_fn_new_client(new_client)
-server.set_fn_message_received(new_message)
-server.run_forever()
-
+def clientLeft(client, server):
+    print "le client:"
+    print client
+    print "est partie"
+    
+def tx2All():
+    server.send_message_to_all("Hello tous")
+    
 if __name__ == "__main__":
-    pass
+    server = WebsocketServer(9999)
+    server.set_fn_new_client(new_client)
+    server.set_fn_message_received(rxMessage)
+    server.set_fn_client_left(clientLeft)
+    
+    server.run_forever()
