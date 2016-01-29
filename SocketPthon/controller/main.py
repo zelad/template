@@ -6,6 +6,7 @@ Created on 15 janv. 2016
 @author: Kiki
 @note: inspiration WebSocket ici: https://pypi.python.org/pypi/websocket-server/0.4
 @note: ou: https://github.com/Pithikos/python-websocket-server
+@note: test le 29/01 pour changement de map dossier de GitH
 '''
 from websocket_server import WebsocketServer
 
