@@ -13,11 +13,12 @@ import json, ast
 
 import UnModel
 
-global wsIHM
 global switch
 global UnModel
 
 def new_client(client, server):
+    global wsIHM
+    wsIHM = client
     print "client connecte"
 # ex de broadcast:
     tx2All(); 
