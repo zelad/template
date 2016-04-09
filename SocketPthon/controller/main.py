@@ -11,7 +11,7 @@ Created on 15 janv. 2016
 from websocket_server import WebsocketServer
 import json, ast
 
-import UnModel
+from UnModel import UnModel
 
 global switch
 global UnModel
@@ -33,7 +33,8 @@ def clientLeft(client, server):
     print "est partie"
     
 def tx2All():
-    server.send_message_to_all("Hello tous")
+    pass
+#     server.send_message_to_all("Hello tous")
 '''
 Fonction de routage des message entrants
 '''    
@@ -43,6 +44,7 @@ def ihmRouting(message, server):
     func(message, server)
 
 def doLogin(message, server):
+    global UnModel
     obj = ast.literal_eval(message)
     objLogin = obj["object"]
     UnModel.nom = objLogin["name"]

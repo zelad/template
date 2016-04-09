@@ -1,16 +1,18 @@
+#!/usr/bin/python
+# -*- coding:Utf-8 -*-
 '''
-Created on 15 févr. 2016
+Created on 15 fÃ©vr. 2016
 
 @author: Kiki
 '''
 
-class MyClass(object):
+class UnModel(object):
     '''
     classdocs
     '''
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
