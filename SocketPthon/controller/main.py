@@ -9,7 +9,7 @@ Created on 15 janv. 2016
 @note: test le 29/01 pour changement de map dossier de GitH
 '''
 from websocket_server import WebsocketServer
-import json, ast
+import json
 
 from UnModel import UnModel
 
@@ -39,13 +39,16 @@ def tx2All():
 Fonction de routage des message entrants
 '''    
 def ihmRouting(message, server):
-    objDict = ast.literal_eval(message)
+#     objDict = ast.literal_eval(message) //pour compatibilité avec Android
+    objDict = json.loads(message)
     func = switch[objDict["sendType"]]
     func(message, server)
 
 def doLogin(message, server):
     global UnModel
-    obj = ast.literal_eval(message)
+#     obj = ast.literal_eval(message) //pour compatibilité avec Android
+#     print message //aucune idée pourquoi mais il faut mettre cela pour que ça fonctionne avec Android!!?
+    obj = json.loads(message)
     objLogin = obj["object"]
     UnModel.nom = objLogin["name"]
     UnModel.prenom = objLogin["firstname"]
