@@ -7,7 +7,7 @@ Created on 15 févr. 2016
 '''
 import json
 
-class NodeBookM(object):
+class UnModel(object):
     '''
     classdocs
     '''
@@ -17,4 +17,4 @@ class NodeBookM(object):
         '''
 #         self.nom = ""
         self.prenom = ""
-
+        self.prenom = ""
