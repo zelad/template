@@ -5,16 +5,16 @@ Created on 15 févr. 2016
 
 @author: Kiki
 '''
+import json
 
-class UnModel(object):
+class NodeBookM(object):
     '''
     classdocs
     '''
-
-
     def __init__(self):
         '''
         Constructor
         '''
-        self.nom = ""
+#         self.nom = ""
         self.prenom = ""
+

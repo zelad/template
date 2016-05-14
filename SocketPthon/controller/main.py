@@ -10,11 +10,17 @@ Created on 15 janv. 2016
 '''
 from websocket_server import WebsocketServer
 import json
+import os
 
-from UnModel import UnModel
+from NodeBookM import NodeBookM
 
 global switch
-global UnModel
+global NodeBookM
+
+def getJson(file):
+    with open(file) as data_file:#test de lecture de sav FireFox 
+        data = json.load(data_file)
+    return  data
 
 def new_client(client, server):
     global wsIHM
@@ -45,13 +51,13 @@ def ihmRouting(message, server):
     func(message, server)
 
 def doLogin(message, server):
-    global UnModel
+    global NodeBookM
 #     obj = ast.literal_eval(message) //pour compatibilité avec Android
 #     print message //aucune idée pourquoi mais il faut mettre cela pour que ça fonctionne avec Android!!?
     obj = json.loads(message)
     objLogin = obj["object"]
-    UnModel.nom = objLogin["name"]
-    UnModel.prenom = objLogin["firstname"]
+    NodeBookM.nom = objLogin["name"]
+    NodeBookM.prenom = objLogin["firstname"]
     #Ack client
     dict={}
     dict["messageType"]="ackLogin"
@@ -59,12 +65,19 @@ def doLogin(message, server):
     server.send_message(wsIHM, objJson)
     
 if __name__ == "__main__":
+# Fixation du point de lecture de fichier
+    os.chdir('../')#Obligation de donner le chemin du fichier avec le QPython
 # routage des messages receptionnes    
     switch={
         "login":doLogin
     }
 # Initialisation des models
-    unModel = UnModel()
+    node = NodeBookM()
+    # Récupération du Json
+    jsonData = getJson('bookmarks.json')
+    barPersonal = jsonData['children'][14]
+    print barPersonal
+    
 # Connexion au client web
     server = WebsocketServer(9999)
     server.set_fn_new_client(new_client) #définition de la fonction pour l arrivé d un nouveau client
