@@ -9,14 +9,28 @@ Created on 15 janv. 2016
 @note: test le 29/01 pour changement de map dossier de GitH
 '''
 from websocket_server import WebsocketServer
+from threading import Thread
+import webbrowser
 import json
 import os
 
 from UnModel import UnModel
 
-global switch
-global unModel
+class Server(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.server = WebsocketServer(9999)
+        self.server.set_fn_new_client(new_client) #définition de la fonction pour l arrivé d un nouveau client
+        self.server.set_fn_message_received(rxMessage) #Définition de la fonction pour l arrivé d un nouveau message
+        self.server.set_fn_client_left(clientLeft) #définition de la fonction pour la déconnexion d'un client
+    
+# Thread de server
+    def run(self):
+        self.server.run_forever()
 
+'''        
+OverLoad des fonctions de webSocket
+'''
 def new_client(client, server):
     global wsIHM
     wsIHM = client
@@ -36,6 +50,17 @@ def clientLeft(client, server):
 def tx2All():
     pass
 #     server.send_message_to_all("Hello tous")
+'''
+Envoie d "Object"
+'''
+def sendObject(object,messageType):
+    global wsIHM
+    dict={}
+    dict["messageType"] = messageType
+    dict["object"] = object
+    objJson = json.dumps(dict)
+    serv.server.send_message(wsIHM, objJson)
+
 '''
 Fonction de routage des message entrants
 '''    
@@ -69,10 +94,14 @@ if __name__ == "__main__":
 # Initialisation des models
     unModel = UnModel()
     
-# Connexion au client web
-    server = WebsocketServer(9999)
-    server.set_fn_new_client(new_client) #définition de la fonction pour l arrivé d un nouveau client
-    server.set_fn_message_received(rxMessage) #Définition de la fonction pour l arrivé d un nouveau message
-    server.set_fn_client_left(clientLeft) #définition de la fonction pour la déconnexion d'un client
-    
-    server.run_forever()
+# ouverture du client web
+#     os.system("where /R c:\\ chrome.exe")# pour appeler une commande DOS "WHERE" afin de trouver le chemin de l'exe de Chrome. pour la gestion des sorties: https://stackoverflow.com/questions/3791465/python-os-system-for-command-line-call-linux-not-returning-what-it-should
+    webbrowser.register("ff", None, webbrowser.BackgroundBrowser("C:\\Program Files\\Firefox Developer Edition\\firefox.exe"))
+    b = webbrowser.get('ff')
+    b.open('file://'+os.path.realpath("../../../Code/Angular/index.html"))
+
+#     webbrowser.open('file://'+os.path.realpath("../../../Angular/index.html"))
+
+# lancement du thread serveur
+    serv = Server()
+    serv.start()
